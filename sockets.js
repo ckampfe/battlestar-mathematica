@@ -15,7 +15,6 @@ module.exports = function (io, util, problem, math) {
         io.sockets.emit('leaderboard',
           util.assocArrayify(leaderboard).sort(util.sortAssocArray));
       });
-
     });
 
     if (currentProblem && correctAnswer) {
@@ -43,7 +42,6 @@ module.exports = function (io, util, problem, math) {
           correctAnswer  = Math.floor(math.eval(currentProblem));
           io.sockets.emit('problem', currentProblem);
         }
-
       }
     });
 
