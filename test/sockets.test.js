@@ -131,7 +131,6 @@ describe('sockets', function () {
       var client  = io.connect(url, options);
 
       client.emit('set username', 'zoe');
-      other.emit('set username', 'book');
 
       client.on('leaderboard', function (leaderboard) {
         leaderboard.should.eql([['zoe', 0]]);
@@ -139,8 +138,13 @@ describe('sockets', function () {
         done();
       });
 
-      other.on('username ack', function () {
-        other.disconnect();
+      // lend some synchronisity
+      client.on('username ack', function () {
+        other.emit('set username', 'book');
+
+        other.on('username ack', function () {
+          other.disconnect();
+        });
       });
     });
   });
