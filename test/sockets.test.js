@@ -29,8 +29,7 @@ describe('sockets', function () {
 
     describe('and I am not the first user', function () {
       it('sends the current problem '
-        + 'without waiting for '
-        + 'the client sending a username', function (done) {
+        + 'without waiting for a username', function (done) {
 
         var client = io.connect(url, options);
 
