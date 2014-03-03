@@ -102,6 +102,23 @@ describe('sockets', function () {
           client.emit('guess', answer);
         });
       });
+
+      it('responds with an updated leaderboard', function (done) {
+        var client = io.connect(url, options);
+
+        client.emit('set username', 'kailey')
+
+        client.on('leaderboard', function (leaderboard) {
+          leaderboard.should.eql([['kailey', 1]]);
+          client.disconnect();
+          done();
+        });
+
+        client.on('problem', function (problem) {
+          var answer = Math.floor(math.eval(problem));
+          client.emit('guess', answer);
+        });
+      });
     });
 
     describe('and it is incorrect', function () {
