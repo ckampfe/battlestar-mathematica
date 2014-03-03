@@ -64,7 +64,6 @@ module.exports = function (io, util, problem, math) {
         currentProblem = problem.create();
         correctAnswer  = Math.floor(math.eval(currentProblem));
         io.sockets.emit('problem', currentProblem);
-        socket.broadcast.emit('new round');
       } else {
         socket.emit('guess status', 'incorrect');
       }
