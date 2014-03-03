@@ -21,7 +21,6 @@ module.exports = function (io, H, problem, math) {
       // if username doesn't exist
       } else {
         socket.emit('username ack');
-        console.log('USERNAME ACK EMITTED');
         socket.set('username', username, function () {
           console.log('SET USERNAME: ' + username);
           leaderboard[username] = 0;
@@ -29,7 +28,6 @@ module.exports = function (io, H, problem, math) {
         });
 
         if (currentProblem === undefined) {
-          console.log('PROBLEM WAS UNDEFINED');
           currentProblem = problem.create().trim();
           console.dir(currentProblem);
           correctAnswer  = Math.floor(math.eval(currentProblem));

@@ -13,7 +13,7 @@ var options = {
 describe('sockets', function () {
   describe('when I connect', function () {
     describe('and I am the first user', function () {
-      it('should wait until I send a '
+      it('waits until I send a '
         +'username before sending the problem', function (done) {
 
         var client = io.connect(url, options);
@@ -23,16 +23,17 @@ describe('sockets', function () {
           done();
         });
 
-        client.emit('set username', 'client');
+        client.emit('set username', 'river');
       }); // it
     }); // first user
 
     describe('and I am not the first user', function () {
-      it('should send the current problem '
+      it('sends the current problem '
         + 'without waiting for '
         + 'the client sending a username', function (done) {
 
         var client = io.connect(url, options);
+
         client.on('problem', function (prob) {
           prob.should.be.ok;
           client.disconnect();
