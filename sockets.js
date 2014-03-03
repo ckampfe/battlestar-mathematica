@@ -1,14 +1,24 @@
-module.exports = function (io, H, problem, math) {
+module.exports = function (io, util, problem, math) {
   var currentProblem,
       correctAnswer;
 
   var leaderboard = {};
 
   io.sockets.on('connection', function (socket) {
-    console.dir('SOCKET CONNECTED');
+
+    socket.on('disconnect', function () {
+      socket.get('username', function (err, username) {
+        if (err) return console.dir(err);
+        delete leaderboard[username];
+
+        // send leaderboard
+        io.sockets.emit('leaderboard',
+          util.assocArrayify(leaderboard).sort(util.sortAssocArray));
+      });
+
+    });
+
     if (currentProblem && correctAnswer) {
-      // THIS IS NOT HAPPENING
-      console.dir('PROBLEM WAS DEFINIED');
       socket.emit('problem', currentProblem);
     }
 

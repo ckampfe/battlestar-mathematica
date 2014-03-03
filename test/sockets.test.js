@@ -124,4 +124,24 @@ describe('sockets', function () {
       });
     });
   });
+
+  describe('when I disconnect', function () {
+    it('removes my name from the leaderboard', function (done) {
+      var other = io.connect(url, options);
+      var client  = io.connect(url, options);
+
+      client.emit('set username', 'zoe');
+      other.emit('set username', 'book');
+
+      client.on('leaderboard', function (leaderboard) {
+        leaderboard.should.eql([['zoe', 0]]);
+        client.disconnect();
+        done();
+      });
+
+      other.on('username ack', function () {
+        other.disconnect();
+      });
+    });
+  });
 });
