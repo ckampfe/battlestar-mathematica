@@ -39,13 +39,27 @@ module.exports = function (io, H, problem, math) {
       }
     });
 
-    socket.on('disconnect', function () {
-      socket.get('username', function (err, username) {
-        if (err) return console.dir(err);
-        console.log('DELETE USERNAME ' + username);
-        delete leaderboard[username];
-        console.log(leaderboard);
-      });
+    socket.on('guess', function (guess) {
+      var guess = Number(guess);
+
+      if (guess === correctAnswer) {
+        socket.get('username', function (err, username) {
+          console.log('CORRECT ANSWER BY: ' + username);
+          leaderboard[username]++
+        });
+
+        socket.emit('guess status', 'correct');
+
+        io.sockets.emit('leaderboard',
+          util.assocArrayify(leaderboard).sort(util.sortAssocArray));
+
+        currentProblem = problem.create();
+        correctAnswer  = Math.floor(math.eval(currentProblem));
+        io.sockets.emit('problem', currentProblem);
+        socket.broadcast.emit('new round');
+      } else {
+        socket.emit('guess status', 'incorrect');
+      }
     });
   });
 }

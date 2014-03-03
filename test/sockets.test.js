@@ -1,6 +1,7 @@
 // make sure app.js is running
 var should  = require('should');
-var io = require('socket.io-client');
+var io      = require('socket.io-client');
+var math    = require('mathjs')();
 
 var url = 'http://localhost:3000';
 
@@ -36,6 +37,88 @@ describe('sockets', function () {
           prob.should.be.ok;
           client.disconnect();
           done();
+        });
+      });
+    });
+  });
+
+  describe('when I submit a username', function () {
+    describe('and the username is novel', function () {
+      it('responds with an ack', function (done) {
+        var rec;
+        var client = io.connect(url, options);
+
+        client.on('username ack', function () {
+          rec = 'ack';
+          rec.should.eql('ack');
+
+          client.disconnect();
+          done();
+        });
+
+        client.emit('set username', 'jane');
+      });
+    });
+
+    describe('and the username is stale', function () {
+      it('responds with a nak', function (done) {
+        var rec;
+        var stale  = io.connect(url, options);
+        var client = io.connect(url, options);
+
+        // poison username
+        stale.emit('set username', 'inara');
+
+        client.on('username nak', function () {
+          rec = 'nak';
+          rec.should.eql('nak');
+
+          stale.disconnect();
+          client.disconnect();
+          done();
+        });
+
+        // try to set with same username
+        client.emit('set username', 'inara');
+      });
+    });
+  });
+
+  describe('when I submit a guess', function () {
+    describe('and it is the right answer', function () {
+      it('responds with a correct guess status', function (done) {
+        var client = io.connect(url, options);
+
+        client.emit('set username', 'wash')
+
+        client.on('guess status', function (guess_data) {
+          guess_data.should.eql('correct');
+          client.disconnect();
+          done();
+        });
+
+        client.on('problem', function (problem) {
+          var answer = Math.floor(math.eval(problem));
+          client.emit('guess', answer);
+        });
+      });
+    });
+
+    describe('and it is incorrect', function () {
+      it('responds with an incorrect guess status', function (done) {
+        var client = io.connect(url, options);
+
+        client.emit('set username', 'mal')
+
+        client.on('guess status', function (guess_data) {
+          guess_data.should.eql('incorrect');
+          client.disconnect();
+          done();
+        });
+
+        client.on('problem', function (problem) {
+          var answer = 99999999;
+          client.emit('guess', answer);
         });
       });
     });
