@@ -58,6 +58,20 @@ describe('sockets', function () {
 
         client.emit('set username', 'jane');
       });
+
+      it('broadcasts a new leaderboard', function (done) {
+        var receiver = io.connect(url, options);
+        var client = io.connect(url, options);
+
+        receiver.on('new user', function (leaderboard) {
+          receiver.disconnect();
+          client.disconnect();
+          leaderboard.should.eql([['kara', 0]]);
+          done();
+        });
+
+        client.emit('set username', 'kara');
+      });
     });
 
     describe('and the username is stale', function () {

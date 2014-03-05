@@ -42,6 +42,9 @@ module.exports = function (io, util, problem, math) {
           correctAnswer  = Math.floor(math.eval(currentProblem));
           io.sockets.emit('problem', currentProblem);
         }
+
+        io.sockets.emit('new user',
+          util.assocArrayify(leaderboard).sort(util.sortAssocArray));
       }
     });
 
