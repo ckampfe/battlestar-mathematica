@@ -59,14 +59,14 @@ describe('sockets', function () {
         client.emit('set username', 'jane');
       });
 
-      it('broadcasts a new leaderboard', function (done) {
+      it('broadcasts my username to all clients', function (done) {
         var receiver = io.connect(url, options);
         var client = io.connect(url, options);
 
-        receiver.on('new user', function (leaderboard) {
+        receiver.on('new user', function (new_user) {
           receiver.disconnect();
           client.disconnect();
-          leaderboard.should.eql([['kara', 0]]);
+          new_user.should.eql('kara');
           done();
         });
 

@@ -43,8 +43,7 @@ module.exports = function (io, util, problem, math) {
           io.sockets.emit('problem', currentProblem);
         }
 
-        io.sockets.emit('new user',
-          util.assocArrayify(leaderboard).sort(util.sortAssocArray));
+        io.sockets.emit('new user', username);
       }
     });
 
