@@ -155,15 +155,15 @@ describe('sockets', function () {
     });
   });
 
-  describe('when I disconnect', function () {
-    it('removes my name from the leaderboard', function (done) {
+  describe('broadcasts my username', function () {
+    it('removes my username from the leaderboard', function (done) {
       var other = io.connect(url, options);
       var client  = io.connect(url, options);
 
       client.emit('set username', 'zoe');
 
-      client.on('leaderboard', function (leaderboard) {
-        leaderboard.should.eql([['zoe', 0]]);
+      client.on('user disconnect', function (username) {
+        username.should.eql('book');
         client.disconnect();
         done();
       });

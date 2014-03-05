@@ -11,9 +11,7 @@ module.exports = function (io, util, problem, math) {
         if (err) return console.dir(err);
         delete leaderboard[username];
 
-        // send leaderboard
-        io.sockets.emit('leaderboard',
-          util.assocArrayify(leaderboard).sort(util.sortAssocArray));
+        io.sockets.emit('user disconnect', username);
       });
     });
 
