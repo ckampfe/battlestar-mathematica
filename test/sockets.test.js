@@ -117,13 +117,13 @@ describe('sockets', function () {
         });
       });
 
-      it('responds with an updated leaderboard', function (done) {
+      it('broadcasts my username and score to all clients', function (done) {
         var client = io.connect(url, options);
 
         client.emit('set username', 'kailey')
 
-        client.on('leaderboard', function (leaderboard) {
-          leaderboard.should.eql([['kailey', 1]]);
+        client.on('user score', function (user_score) {
+          user_score.should.eql(['kailey', 1]);
           client.disconnect();
           done();
         });

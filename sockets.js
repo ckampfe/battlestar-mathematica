@@ -52,12 +52,10 @@ module.exports = function (io, util, problem, math) {
         socket.get('username', function (err, username) {
           console.log('CORRECT ANSWER BY: ' + username);
           leaderboard[username]++
+          io.sockets.emit('user score', [username, leaderboard[username]]);
         });
 
         socket.emit('guess status', 'correct');
-
-        io.sockets.emit('leaderboard',
-          util.assocArrayify(leaderboard).sort(util.sortAssocArray));
 
         currentProblem = problem.create();
         correctAnswer  = Math.floor(math.eval(currentProblem));
