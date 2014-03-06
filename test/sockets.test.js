@@ -155,8 +155,8 @@ describe('sockets', function () {
     });
   });
 
-  describe('broadcasts my username', function () {
-    it('removes my username from the leaderboard', function (done) {
+  describe('when I disconnect', function () {
+    it('broadcasts my username to all clients', function (done) {
       var other = io.connect(url, options);
       var client  = io.connect(url, options);
 
