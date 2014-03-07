@@ -1,5 +1,5 @@
 var should  = require('should');
-var problem = require('../public/javascripts/helpers/problem')();
+var problem = require('../public/scripts/helpers/problem')();
 
 describe('problem', function () {
   describe('#create()', function () {

@@ -6,13 +6,13 @@ var path    = require('path');
 var math    = require('mathjs')();
 
 var routes  = require(__dirname + '/routes');
-var problem = require(__dirname + '/public/javascripts/helpers/problem')();
-var H       = require(__dirname + '/public/javascripts/helpers/util')();
+var problem = require(__dirname + '/public/scripts/helpers/problem')();
+var util    = require(__dirname + '/public/scripts/helpers/util')();
 
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'jade');
 
-require('./sockets')(io, H, problem, math);
+require('./sockets')(io, util, problem, math);
 
 app.get('/', routes.index);
 

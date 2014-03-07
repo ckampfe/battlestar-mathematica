@@ -1,5 +1,5 @@
 var should = require('should');
-var util   = require('../public/javascripts/helpers/util')();
+var util   = require('../public/scripts/helpers/util')();
 
 describe('util', function () {
   describe('#sample()', function () {
