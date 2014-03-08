@@ -49,7 +49,36 @@ describe('integration', function () {
     });
 
     describe('and I am not the first user', function () {
-      it('there is a leaderboard containing users and scores');
+      var client;
+
+      beforeEach(function (done) {
+        var url     = 'http://localhost:3000';
+        var options = { 'force new connection': true };
+
+        client = io.connect(url, options);
+        client.on('username ack', function () {
+          done();
+        });
+
+        driver.get(url).then(function () {
+          setTimeout(function () {
+            // for some reason this needs a delay
+            client.emit('set username', 'brak');
+          }, 500);
+        });
+      });
+
+
+      it('there is a scoreboard containing users and scores', function (done) {
+        var scoreboard = driver.findElement(webdriver.By.id('scoreboard'));
+        scoreboard.getText().then(function (text) {
+          // text.should.match(/brak/);
+          text.should.match(/brak: 0/);
+          client.disconnect();
+          done();
+        });
+      });
+
       it('there is a problem');
     });
   });
@@ -57,7 +86,7 @@ describe('integration', function () {
   describe('when I submit my username', function () {
     describe('and it is a novel one', function () {
       it('allows me to enter a guess');
-      it('adds me to the leaderboard');
+      it('adds me to the scoreboard');
     });
 
     describe('and it is stale', function () {
