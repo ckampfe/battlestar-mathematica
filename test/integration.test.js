@@ -1,18 +1,51 @@
 var should    = require('should');
 var math      = require('mathjs')();
 var webdriver = require('selenium-webdriver');
-var driver    = new webdriver.Builder().
-                withCapabilities(webdriver.Capabilities.firefox()).
-                build();
+var io        = require('socket.io-client');
 
 //driver.quit();
 
 describe('integration', function () {
+  this.timeout(4000);
+  var driver;
+
+  before(function () {
+    driver = new webdriver.Builder()
+             .withCapabilities(webdriver.Capabilities.firefox())
+             .build();
+  });
+
+  beforeEach(function (done) {
+    driver.get('http://localhost:3000').then(function () {
+      done();
+    });
+  });
+
+  after(function () {
+    driver.quit();
+  });
+
+
   describe('when I join the game', function () {
-    it('contains a field to enter my username');
+    it('contains a field to enter my username', function (done) {
+      var usernameInput = driver.findElement(webdriver.By.tagName('input'));
+
+      usernameInput.getAttribute('name')
+      .then(function (boxName) {
+        boxName.should.eql('username');
+        done();
+      });
+    });
 
     describe('and I am the first user', function () {
-      it('there is not problem');
+      it('there is no problem displayed', function (done) {
+        var problemDiv = driver.findElement(webdriver.By.id('problem'));
+
+        problemDiv.getText().then(function (text) {
+          text.should.eql('');
+          done();
+        });
+      });
     });
 
     describe('and I am not the first user', function () {
