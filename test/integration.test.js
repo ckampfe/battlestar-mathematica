@@ -3,8 +3,6 @@ var math      = require('mathjs')();
 var webdriver = require('selenium-webdriver');
 var io        = require('socket.io-client');
 
-//driver.quit();
-
 describe('integration', function () {
   this.timeout(4000);
   var driver;
@@ -56,37 +54,59 @@ describe('integration', function () {
         var options = { 'force new connection': true };
 
         client = io.connect(url, options);
-        client.on('username ack', function () {
+        client.on('username ack', function (username) {
           done();
         });
 
         driver.get(url).then(function () {
           setTimeout(function () {
-            // for some reason this needs a delay
             client.emit('set username', 'brak');
           }, 500);
         });
       });
 
-
       it('there is a scoreboard containing users and scores', function (done) {
         var scoreboard = driver.findElement(webdriver.By.id('scoreboard'));
         scoreboard.getText().then(function (text) {
-          // text.should.match(/brak/);
           text.should.match(/brak: 0/);
           client.disconnect();
           done();
         });
       });
 
-      it('there is a problem');
+      it('there is a problem', function (done) {
+        var problem = driver.findElement(webdriver.By.id('problem'));
+        problem.getText().then(function (text) {
+          text.should.not.be.empty;
+          client.disconnect();
+          done();
+        });
+      });
     });
   });
 
   describe('when I submit my username', function () {
+    beforeEach(function (done) {
+      var url     = 'http://localhost:3000';
+
+      driver.get(url);
+      driver.findElement(webdriver.By.name('username')).sendKeys('Han');
+      driver.findElement(webdriver.By.name('submit')).click()
+
+      // buffer to allow for server
+      setTimeout(done(), 300);
+    });
+
     describe('and it is a novel one', function () {
-      it('allows me to enter a guess');
-      it('adds me to the scoreboard');
+      it('adds me to the scoreboard', function (done) {
+        var scoreboard = driver.findElement(webdriver.By.id('scoreboard'));
+        scoreboard.getText().then(function (text) {
+          text.should.match(/Han: 0/);
+          done();
+        });
+      });
+
+      it('then allows me to enter a guess');
     });
 
     describe('and it is stale', function () {

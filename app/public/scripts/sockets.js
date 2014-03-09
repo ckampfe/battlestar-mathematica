@@ -11,17 +11,27 @@ define(
 
     return {
       start: [
-        socket.on('username ack'),
-        socket.on('username nak'),
-        socket.on('new user', function (new_user) {
-          dom.addUserToScoreboard(new_user);
+        dom.listeners(socket),
+        socket.on('username ack', function (username) {
+          dom.addUserToScoreboard(username);
         }),
+
+        socket.on('username nak'),
+
+        socket.on('new user', function (username) {
+          dom.addUserToScoreboard(username);
+        }),
+
         socket.on('guess status'),
-        socket.on('problem', function (problem) { console.log(problem) } ),
+
+        socket.on('problem', function (problem) {
+          dom.displayProblem(problem);
+        }),
+
         socket.on('user score'),
+
         socket.on('user disconnect')
       ]
     }
   }
 );
-

@@ -11,7 +11,7 @@ module.exports = function (io, util, problem, math) {
         if (err) return console.dir(err);
         delete leaderboard[username];
 
-        io.sockets.emit('user disconnect', username);
+        socket.broadcast.emit('user disconnect', username);
       });
     });
 
@@ -27,8 +27,8 @@ module.exports = function (io, util, problem, math) {
 
       // if username doesn't exist
       } else {
-        socket.emit('username ack');
         socket.set('username', username, function () {
+          socket.emit('username ack', username);
           console.log('SET USERNAME: ' + username);
           leaderboard[username] = 0;
           console.log(leaderboard);
@@ -41,7 +41,7 @@ module.exports = function (io, util, problem, math) {
           io.sockets.emit('problem', currentProblem);
         }
 
-        io.sockets.emit('new user', username);
+        socket.broadcast.emit('new user', username);
       }
     });
 
