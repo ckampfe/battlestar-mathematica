@@ -11,6 +11,7 @@ describe('integration', function () {
     driver = new webdriver.Builder()
              .withCapabilities(webdriver.Capabilities.firefox())
              .build();
+    driver.manage().timeouts().implicitlyWait(10);
   });
 
   beforeEach(function (done) {
@@ -91,7 +92,7 @@ describe('integration', function () {
 
       driver.get(url);
       driver.findElement(webdriver.By.name('username')).sendKeys('Han');
-      driver.findElement(webdriver.By.name('submit')).click()
+      driver.findElement(webdriver.By.name('submit')).click();
 
       // buffer to allow for server
       setTimeout(done(), 300);
@@ -120,7 +121,34 @@ describe('integration', function () {
     });
 
     describe('and it is stale', function () {
-      it('continues to prompt me until I enter a novel one');
+      var anotherDriver;
+
+      beforeEach(function (done) {
+        anotherDriver = new webdriver.Builder()
+             .withCapabilities(webdriver.Capabilities.firefox())
+             .build();
+
+        driver.manage().timeouts().implicitlyWait(10);
+
+        anotherDriver.get('http://localhost:3000').then(function () {
+          done();
+        });
+      });
+
+      after(function () {
+        anotherDriver.quit();
+      });
+
+      it('continues to prompt me until I enter a novel one', function (done) {
+        anotherDriver.findElement(webdriver.By.name('username')).sendKeys('Han');
+        anotherDriver.findElement(webdriver.By.name('submit')).click();
+
+        var usernameStatus = anotherDriver.findElement(webdriver.By.id('status'))
+        usernameStatus.getText().then(function (text) {
+          text.should.match(/[Ii]nvalid/);
+          done();
+        });
+      });
     });
   });
 

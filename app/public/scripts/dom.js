@@ -33,6 +33,14 @@ define(
             + '<input type="submit" value="submit">'
             )
       },
+
+      displayNak: function () {
+        $('input[name="guess"]').empty();
+        $("#status").empty();
+        $("#status").html(
+            '<p>Invalid username; please try another.</p>'
+            )
+      },
     }
   }
 );

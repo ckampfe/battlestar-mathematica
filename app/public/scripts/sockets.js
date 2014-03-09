@@ -17,7 +17,9 @@ define(
           dom.makeGuessInput();
         }),
 
-        socket.on('username nak'),
+        socket.on('username nak', function () {
+          dom.displayNak();
+        }),
 
         socket.on('new user', function (username) {
           dom.addUserToScoreboard(username);
