@@ -108,7 +108,15 @@ describe('integration', function () {
         }, 400);
       });
 
-      it('then allows me to enter a guess');
+      it('then allows me to enter a guess', function (done) {
+        var guessInput = driver.findElement(webdriver.By.tagName('input'));
+
+        guessInput.getAttribute('name')
+        .then(function (boxName) {
+          boxName.should.eql('guess');
+          done();
+        });
+      });
     });
 
     describe('and it is stale', function () {

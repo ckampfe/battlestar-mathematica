@@ -14,6 +14,7 @@ define(
         dom.listeners(socket),
         socket.on('username ack', function (username) {
           dom.addUserToScoreboard(username);
+          dom.makeGuessInput();
         }),
 
         socket.on('username nak'),

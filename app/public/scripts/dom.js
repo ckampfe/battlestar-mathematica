@@ -24,6 +24,15 @@ define(
         $("#problem").empty();
         $("#problem").append(problem);
       },
+
+      makeGuessInput: function () {
+        $(".inputs").empty();
+        $(".inputs").html(
+            '<form id="guess">'
+            + '<input type="text" name="guess" placeholder="guess">'
+            + '<input type="submit" value="submit">'
+            )
+      },
     }
   }
 );
