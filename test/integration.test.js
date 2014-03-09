@@ -100,10 +100,12 @@ describe('integration', function () {
     describe('and it is a novel one', function () {
       it('adds me to the scoreboard', function (done) {
         var scoreboard = driver.findElement(webdriver.By.id('scoreboard'));
-        scoreboard.getText().then(function (text) {
-          text.should.match(/Han: 0/);
-          done();
-        });
+        setTimeout(function () {
+          scoreboard.getText().then(function (text) {
+            text.should.match(/Han: 0/);
+            done();
+          });
+        }, 400);
       });
 
       it('then allows me to enter a guess');
