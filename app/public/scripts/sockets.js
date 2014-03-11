@@ -14,7 +14,7 @@ define(
         dom.listeners(socket),
         socket.on('username ack', function (username) {
           dom.addUserToScoreboard(username);
-          dom.makeGuessInput();
+          dom.makeGuessInput(socket);
         }),
 
         socket.on('username nak', function () {
@@ -25,7 +25,13 @@ define(
           dom.addUserToScoreboard(username);
         }),
 
-        socket.on('guess status'),
+        socket.on('guess status', function (guessStatus) {
+          if (guessStatus === 'correct') {
+            dom.congratulate();
+          } else {
+            // dom.shame();
+          }
+        }),
 
         socket.on('problem', function (problem) {
           dom.displayProblem(problem);

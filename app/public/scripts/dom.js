@@ -11,7 +11,7 @@ define(
         $("#username_form").submit(function (event) {
           var username = $('input[name="username"]').val();
           socket.emit('set username', username);
-          console.log('username');
+          console.log('username submitted');
           event.preventDefault();
         });
       },
@@ -25,13 +25,20 @@ define(
         $("#problem").append(problem);
       },
 
-      makeGuessInput: function () {
+      makeGuessInput: function (socket) {
         $(".inputs").empty();
         $(".inputs").html(
-            '<form id="guess">'
-            + '<input type="text" name="guess" placeholder="guess">'
-            + '<input type="submit" value="submit">'
-            )
+          '<form id="guess_form">'
+          + '<input type="text" name="guess" placeholder="guess">'
+          + '<input type="submit" name="submit" value="submit">'
+          )
+
+        $("#guess_form").submit(function (event) {
+          var guess = $('input[name="guess"]').val();
+          socket.emit('guess', guess);
+          console.log('problem submitted');
+          event.preventDefault();
+        });
       },
 
       displayNak: function () {
@@ -39,6 +46,13 @@ define(
         $("#status").empty();
         $("#status").html(
             '<p>Invalid username; please try another.</p>'
+            )
+      },
+
+      congratulate: function () {
+        $("#status").empty();
+        $("#status").html(
+            '<p>Correct! Nice!</p>'
             )
       },
     }

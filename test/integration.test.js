@@ -2,6 +2,7 @@ var should    = require('should');
 var math      = require('mathjs')();
 var webdriver = require('selenium-webdriver');
 var io        = require('socket.io-client');
+var math      = require('mathjs')();
 
 describe('integration', function () {
   this.timeout(4000);
@@ -59,6 +60,7 @@ describe('integration', function () {
           done();
         });
 
+        driver.manage().timeouts().implicitlyWait(10);
         driver.get(url).then(function () {
           setTimeout(function () {
             client.emit('set username', 'brak');
@@ -110,12 +112,12 @@ describe('integration', function () {
       });
 
       it('then allows me to enter a guess', function (done) {
-        var guessInput = driver.findElement(webdriver.By.tagName('input'));
-
-        guessInput.getAttribute('name')
-        .then(function (boxName) {
-          boxName.should.eql('guess');
-          done();
+        var guessInput = driver.findElement(webdriver.By.tagName('input'))
+        .then(function (guessInput) {
+          guessInput.getAttribute('name').then(function (boxName) {
+            boxName.should.eql('guess');
+            done();
+          });
         });
       });
     });
@@ -128,7 +130,7 @@ describe('integration', function () {
              .withCapabilities(webdriver.Capabilities.firefox())
              .build();
 
-        driver.manage().timeouts().implicitlyWait(10);
+        anotherDriver.manage().timeouts().implicitlyWait(10);
 
         anotherDriver.get('http://localhost:3000').then(function () {
           done();
@@ -154,7 +156,53 @@ describe('integration', function () {
 
   describe('when I submit a guess', function () {
     describe('and it is the right answer', function () {
-      it('congratulates me');
+      beforeEach(function (done) {
+        var url     = 'http://localhost:3000';
+
+        driver.get(url);
+        driver.findElement(webdriver.By.name('username')).sendKeys('Leia');
+        driver.findElement(webdriver.By.name('submit')).click();
+
+        driver.manage().timeouts().implicitlyWait(10);
+        // buffer to allow for server
+        setTimeout(done(), 500);
+      });
+
+      after(function () {
+        driver.quit();
+      });
+
+      it('congratulates me', function (done) {
+        var problemDiv = driver.findElement(webdriver.By.id('problem'));
+        var answer;
+        var guessStatusDiv;
+
+        problemDiv.getText().then(function (problem) {
+
+          answer = math.eval(problem);
+          return answer;
+
+        }).then(function (answer) {
+
+          // send answer
+          driver.findElement(webdriver.By.name('guess')).sendKeys(answer)
+          .then(function () {
+            driver.findElement(webdriver.By.name('submit')).click();
+          });
+
+        }).then(function () {
+          // get status element
+          guessStatusDiv = driver.findElement(webdriver.By.id('status'))
+
+        }).then(function () {
+          // get status
+          guessStatusDiv.getText().then(function (text) {
+            text.should.match(/Correct! Nice!/);
+            done();
+          })
+        });
+      });
+
       it('increments my score on the scoreboard');
     });
 

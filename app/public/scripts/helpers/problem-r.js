@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
   module.exports = function () {
-    var ops = ['+', '-', '*', '/'];
+    var ops = ['+', '-', '*'];
 
     function randomInt (upper) {
       return Math.floor(Math.random() * upper) + 2;
