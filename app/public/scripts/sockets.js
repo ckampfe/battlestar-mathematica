@@ -37,7 +37,42 @@ define(
           dom.displayProblem(problem);
         }),
 
-        socket.on('user score'),
+        socket.on('user score', function (userScore) {
+          // get scoreboard children
+          var children = dom.getScoreboard();
+          // remove annoying js builtins
+          var childrenKeys = Object.keys(children).filter(function (key) {
+            // not keen on type conversion
+            if (Number(key) == key) {
+              return key;
+            }
+          });
+
+          // make into 2D array
+          children = childrenKeys.map(function (child) {
+            var currentItem = children[child].textContent;
+            var name  = /(\w+)/.exec(currentItem)[1];
+            var score = /\:\ (\d+)/.exec(currentItem)[1];
+            return [name, score];
+          });
+
+          // remove the one that is to be updated
+          var scoreboard = children.filter(function (child) {
+            if (child[0] !== userScore[0]) {
+              return child;
+            }
+          });
+
+          // update it, inserting new score
+          scoreboard.push(userScore);
+
+          // sort by score
+          scoreboard.sort(util.sortAssocArray);
+
+          // wipe scoreboard
+          // inject back into scoreboard
+          dom.insertScoreboard(scoreboard);
+        }),
 
         socket.on('user disconnect')
       ]

@@ -203,7 +203,34 @@ describe('integration', function () {
         });
       });
 
-      it('increments my score on the scoreboard');
+      it('increments my score on the scoreboard', function (done) {
+        var problemDiv = driver.findElement(webdriver.By.id('problem'));
+        var answer;
+        var guessStatusDiv;
+
+        problemDiv.getText().then(function (problem) {
+
+          answer = math.eval(problem);
+          return answer;
+
+        }).then(function (answer) {
+
+          // send answer
+          driver.findElement(webdriver.By.name('guess')).sendKeys(answer)
+          .then(function () {
+            driver.findElement(webdriver.By.name('submit')).click();
+          });
+
+        }).then(function () {
+          var scoreboard = driver.findElement(webdriver.By.id('scoreboard'));
+          return scoreboard;
+        }).then(function (scoreboard) {
+          scoreboard.getText().then(function (text) {
+            text.should.match(/Leia: 1/);
+            done();
+          });
+        });
+      });
     });
 
     describe('and it is incorrect', function () {

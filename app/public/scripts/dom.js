@@ -55,6 +55,18 @@ define(
             '<p>Correct! Nice!</p>'
             )
       },
+
+      getScoreboard: function () {
+        return $("#scoreboard").children();
+      },
+
+      insertScoreboard: function (scoreboard) {
+        $("#scoreboard").empty();
+        scoreboard.forEach(function (score) {
+          $("#scoreboard").append(
+            "<p>" + score[0] + ": " + score[1]);
+        });
+      }
     }
   }
 );
