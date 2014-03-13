@@ -29,7 +29,7 @@ define(
           if (guessStatus === 'correct') {
             dom.congratulate();
           } else {
-            // dom.shame();
+            dom.shame();
           }
         }),
 

@@ -169,9 +169,9 @@ describe('integration', function () {
         setTimeout(done(), 500);
       });
 
-      after(function () {
-        driver.quit();
-      });
+      // after(function () {
+      //   driver.quit();
+      // });
 
       it('congratulates me', function (done) {
         var problemDiv = driver.findElement(webdriver.By.id('problem'));
@@ -235,7 +235,52 @@ describe('integration', function () {
     });
 
     describe('and it is incorrect', function () {
-      it('shames me');
+      beforeEach(function (done) {
+        var url     = 'http://localhost:3000';
+
+        driver.get(url).then(function () {;
+          driver.findElement(webdriver.By.name('username')).sendKeys('Leia');
+          driver.findElement(webdriver.By.name('submit')).click();
+        });
+
+        driver.manage().timeouts().implicitlyWait(10);
+        // buffer to allow for server
+        setTimeout(done(), 500);
+      });
+
+      after(function () {
+        driver.quit();
+      });
+
+      it('shames me', function (done) {
+        var problemDiv = driver.findElement(webdriver.By.id('problem'));
+        var answer;
+        var guessStatusDiv;
+
+        problemDiv.getText().then(function (problem) {
+
+          return 99999999999;
+
+        }).then(function (answer) {
+
+          // send answer
+          driver.findElement(webdriver.By.name('guess')).sendKeys(answer)
+          .then(function () {
+            driver.findElement(webdriver.By.name('submit')).click();
+          });
+
+        }).then(function () {
+          // get status element
+          guessStatusDiv = driver.findElement(webdriver.By.id('status'))
+
+        }).then(function () {
+          // get status
+          guessStatusDiv.getText().then(function (text) {
+            text.should.match(/YOU FOOL!/);
+            done();
+          })
+        });
+      });
     });
   });
 

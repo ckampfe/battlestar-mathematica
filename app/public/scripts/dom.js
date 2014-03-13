@@ -66,6 +66,13 @@ define(
           $("#scoreboard").append(
             "<p>" + score[0] + ": " + score[1]);
         });
+      },
+
+      shame: function () {
+        $("#status").empty();
+        $("#status").html(
+            '<p>YOU FOOL!</p>'
+            )
       }
     }
   }
