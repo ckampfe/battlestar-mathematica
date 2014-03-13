@@ -92,9 +92,10 @@ describe('integration', function () {
     beforeEach(function (done) {
       var url     = 'http://localhost:3000';
 
-      driver.get(url);
-      driver.findElement(webdriver.By.name('username')).sendKeys('Han');
-      driver.findElement(webdriver.By.name('submit')).click();
+      driver.get(url).then(function () {
+        driver.findElement(webdriver.By.name('username')).sendKeys('Han');
+        driver.findElement(webdriver.By.name('submit')).click();
+      });
 
       // buffer to allow for server
       setTimeout(done(), 300);
@@ -112,8 +113,7 @@ describe('integration', function () {
       });
 
       it('then allows me to enter a guess', function (done) {
-        var guessInput = driver.findElement(webdriver.By.tagName('input'))
-        .then(function (guessInput) {
+        driver.findElement(webdriver.By.tagName('input')).then(function (guessInput) {
           guessInput.getAttribute('name').then(function (boxName) {
             boxName.should.eql('guess');
             done();
@@ -159,9 +159,10 @@ describe('integration', function () {
       beforeEach(function (done) {
         var url     = 'http://localhost:3000';
 
-        driver.get(url);
-        driver.findElement(webdriver.By.name('username')).sendKeys('Leia');
-        driver.findElement(webdriver.By.name('submit')).click();
+        driver.get(url).then(function () {;
+          driver.findElement(webdriver.By.name('username')).sendKeys('Leia');
+          driver.findElement(webdriver.By.name('submit')).click();
+        });
 
         driver.manage().timeouts().implicitlyWait(10);
         // buffer to allow for server
