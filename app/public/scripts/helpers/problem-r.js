@@ -1,5 +1,5 @@
 define(function (require, exports, module) {
-  module.exports = function () {
+  module.exports = (function () {
     var ops = ['+', '-', '*'];
 
     function randomInt (upper) {
@@ -27,5 +27,5 @@ define(function (require, exports, module) {
         return problem.join(' ');
       }
     }
-  }
+  })();
 });

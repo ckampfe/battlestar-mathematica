@@ -1,5 +1,5 @@
 define(function (require, exports, module) {
-  module.exports = function () {
+  module.exports = (function () {
     return {
       sample: function (ar) {
         return ar[Math.floor(Math.random() * ar.length)];
@@ -21,5 +21,5 @@ define(function (require, exports, module) {
         return b[1] > a[1];
       }
     }
-  }
+  })();
 });
