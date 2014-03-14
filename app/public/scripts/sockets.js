@@ -91,6 +91,14 @@ define(
             }
           });
 
+          children = childrenKeys.map(function (child) {
+            var currentItem = children[child].textContent;
+            var name  = /(\w+)/.exec(currentItem)[1];
+            var score = /\:\ (\d+)/.exec(currentItem)[1];
+            return [name, score];
+          });
+
+
           var scoreboard = children.filter(function (child) {
             if (child[0] !== username) {
               return child;

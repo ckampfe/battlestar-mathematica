@@ -65,7 +65,6 @@ define(
         $("#scoreboard").empty();
         if (scoreboard.length > 0) {
           scoreboard.forEach(function (score) {
-            console.log(score);
             $("#scoreboard").append(
               "<p>" + score[0] + ": " + score[1]);
           });
