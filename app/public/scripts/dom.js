@@ -35,6 +35,7 @@ define(
 
         $("#guess_form").submit(function (event) {
           var guess = $('input[name="guess"]').val();
+          $('input[name="guess"]').val('');
           socket.emit('guess', guess);
           console.log('problem submitted');
           event.preventDefault();
@@ -62,10 +63,13 @@ define(
 
       insertScoreboard: function (scoreboard) {
         $("#scoreboard").empty();
-        scoreboard.forEach(function (score) {
-          $("#scoreboard").append(
-            "<p>" + score[0] + ": " + score[1]);
-        });
+        if (scoreboard.length > 0) {
+          scoreboard.forEach(function (score) {
+            console.log(score);
+            $("#scoreboard").append(
+              "<p>" + score[0] + ": " + score[1]);
+          });
+        }
       },
 
       shame: function () {

@@ -159,19 +159,16 @@ describe('integration', function () {
       beforeEach(function (done) {
         var url     = 'http://localhost:3000';
 
+        driver.manage().timeouts().implicitlyWait(10);
+
         driver.get(url).then(function () {;
           driver.findElement(webdriver.By.name('username')).sendKeys('Leia');
           driver.findElement(webdriver.By.name('submit')).click();
         });
 
-        driver.manage().timeouts().implicitlyWait(10);
         // buffer to allow for server
         setTimeout(done(), 500);
       });
-
-      // after(function () {
-      //   driver.quit();
-      // });
 
       it('congratulates me', function (done) {
         var problemDiv = driver.findElement(webdriver.By.id('problem'));
@@ -248,9 +245,9 @@ describe('integration', function () {
         setTimeout(done(), 500);
       });
 
-      after(function () {
-        driver.quit();
-      });
+      // after(function () {
+      //   driver.quit();
+      // });
 
       it('shames me', function (done) {
         var problemDiv = driver.findElement(webdriver.By.id('problem'));
