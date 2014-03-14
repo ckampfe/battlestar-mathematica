@@ -74,13 +74,32 @@ define(
           dom.insertScoreboard(scoreboard);
         }),
 
-        socket.on('user disconnect')
         socket.on('scoreboard', function (scoreboard) {
           scoreboard = util.assocArrayify(scoreboard);
           if (scoreboard.length > 0) {
             dom.insertScoreboard(scoreboard);
           }
         }),
+
+        socket.on('user disconnect', function (username) {
+          var children = dom.getScoreboard();
+          // remove annoying js builtins
+          var childrenKeys = Object.keys(children).filter(function (key) {
+            // not keen on type conversion
+            if (Number(key) == key) {
+              return key;
+            }
+          });
+
+          var scoreboard = children.filter(function (child) {
+            if (child[0] !== username) {
+              return child;
+            }
+          });
+
+          scoreboard.sort(util.sortAssocArray);
+          dom.insertScoreboard(scoreboard);
+        })
       ]
     }
   }

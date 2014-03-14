@@ -287,6 +287,44 @@ describe('integration', function () {
   });
 
   describe('when someone else leaves', function () {
-    it('removes their entry from the scoreboard');
+    var thirdDriver;
+    var client;
+
+    before(function (done) {
+      thirdDriver = new webdriver.Builder()
+               .withCapabilities(webdriver.Capabilities.firefox())
+               .build();
+
+      thirdDriver.manage().timeouts().implicitlyWait(10);
+
+      var url     = 'http://localhost:3000';
+      var options = { 'force new connection': true };
+
+      client = io.connect(url, options);
+
+      client.on('username ack', function (username) {
+        done();
+      });
+
+      thirdDriver.get('http://localhost:3000').then(function () {
+        client.emit('set username', 'lando');
+      });
+    });
+
+    after(function () {
+      thirdDriver.quit();
+    });
+
+    it('removes their entry from the scoreboard', function (done) {
+      client.disconnect();
+
+      thirdDriver.findElement(webdriver.By.id('scoreboard'))
+      .then(function (scoreboard) {
+        return scoreboard.getText();
+      }).then(function (text) {
+        text.should.not.match(/lando: 0/);
+        done();
+      });
+    });
   });
 });
