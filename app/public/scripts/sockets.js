@@ -75,6 +75,12 @@ define(
         }),
 
         socket.on('user disconnect')
+        socket.on('scoreboard', function (scoreboard) {
+          scoreboard = util.assocArrayify(scoreboard);
+          if (scoreboard.length > 0) {
+            dom.insertScoreboard(scoreboard);
+          }
+        }),
       ]
     }
   }

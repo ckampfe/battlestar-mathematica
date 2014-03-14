@@ -6,6 +6,8 @@ module.exports = function (io, util, problem, math) {
 
   io.sockets.on('connection', function (socket) {
 
+    socket.emit('scoreboard', leaderboard);
+
     socket.on('disconnect', function () {
       socket.get('username', function (err, username) {
         if (err) return console.dir(err);
