@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
-  module.exports = function () {
-    var ops = ['+', '-', '*', '/'];
+  module.exports = (function () {
+    var ops = ['+', '-', '*'];
 
     function randomInt (upper) {
       return Math.floor(Math.random() * upper) + 2;
@@ -27,5 +27,5 @@ define(function (require, exports, module) {
         return problem.join(' ');
       }
     }
-  }
+  })();
 });

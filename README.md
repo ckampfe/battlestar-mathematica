@@ -14,3 +14,4 @@ A math game created for the good folks over at [Belly](https://bellycard.com/).
 - Math.js 0.18.1
 - RequireJS 2.1.11
 - Jade 1.1.5
+- jQuery 2.1.0
