@@ -8,11 +8,13 @@ define(
 
   function (io, dom, util, problem) {
     var socket = io.connect('http://localhost');
+    var thisUser;
 
     return {
       start: [
         dom.listeners(socket),
         socket.on('username ack', function (username) {
+          thisUser = username;
           dom.addUserToScoreboard(username);
           dom.makeGuessInput(socket);
         }),
@@ -29,7 +31,7 @@ define(
           if (guessStatus === 'correct') {
             dom.congratulate();
           } else {
-            dom.shame();
+            dom.wrong();
           }
         }),
 
@@ -38,6 +40,10 @@ define(
         }),
 
         socket.on('user score', function (userScore) {
+          if (userScore[0] !== thisUser) {
+            dom.shame();
+          }
+
           // get scoreboard children
           var children = dom.getScoreboard();
           // remove annoying js builtins

@@ -71,10 +71,16 @@ define(
         }
       },
 
-      shame: function () {
+      wrong: function () {
         $("#status").empty();
         $("#status").html(
             '<p>YOU FOOL!</p>'
+            )
+      },
+      shame: function () {
+        $("#status").empty();
+        $("#status").html(
+            '<p>Too slow!</p>'
             )
       }
     }
