@@ -282,7 +282,55 @@ describe('integration', function () {
   });
 
   describe('when someone else answers correctly', function () {
-    it('shames me');
+    var thirdDriver;
+    var client;
+
+    beforeEach(function (done) {
+      thirdDriver = new webdriver.Builder()
+               .withCapabilities(webdriver.Capabilities.firefox())
+               .build();
+
+      thirdDriver.manage().timeouts().implicitlyWait(10);
+
+      var url     = 'http://localhost:3000';
+      var options = { 'force new connection': true };
+
+      client = io.connect(url, options);
+
+      client.on('guess status', function (guessStatus) {
+        if (guessStatus === 'correct') {
+          client.disconnect();
+          done();
+        }
+      });
+
+      client.on('problem', function (problem) {
+        setTimeout(function () {
+          client.emit('guess', math.eval(problem));
+        }, 500);
+      });
+
+      thirdDriver.get('http://localhost:3000').then(function () {
+        setTimeout(function () {
+          client.emit('set username', 'r2d2');
+        }, 1000);
+      });
+    });
+
+    after(function () {
+      thirdDriver.quit();
+    });
+
+    it('shames me', function (done) {
+      thirdDriver.findElement(webdriver.By.id('status'))
+      .then(function (statusDiv) {
+        return statusDiv.getText();
+      }).then(function (text) {
+        text.should.match(/Too slow!/);
+        done();
+      });
+    });
+
     it('increments their score on my scoreboard');
   });
 
