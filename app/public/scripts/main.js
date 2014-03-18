@@ -1,3 +1,3 @@
-require(["sockets"], function(sockets) {
+require(["sockets", "plugins", "modernizr"], function(sockets) {
   return sockets.start;
 });
