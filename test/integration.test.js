@@ -273,7 +273,7 @@ describe('integration', function () {
         }).then(function () {
           // get status
           guessStatusDiv.getText().then(function (text) {
-            text.should.match(/YOU FOOL!/);
+            text.should.match(/(YOU FOOL!|Nope...|Wrong!)/);
             done();
           })
         });

@@ -72,9 +72,10 @@ define(
       },
 
       wrong: function () {
+        var wrongs = ['YOU FOOL!', 'Nope...', 'Wrong!'];
         $("#status").empty();
         $("#status").html(
-            '<p>YOU FOOL!</p>'
+            '<span class="inline">' + util.sample(wrongs) + '</p>'
             )
       },
       shame: function () {
