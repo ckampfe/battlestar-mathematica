@@ -116,6 +116,10 @@ textarea {
   padding: 0.75em;
 }
 
+.center_text {
+  text-align: center;
+}
+
 .min_10 {
   min-width: 10%;
 }
