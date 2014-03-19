@@ -17,7 +17,7 @@ define(
       },
 
       addUserToScoreboard: function (user) {
-        $("#scoreboard").append('<p>' + user + ': ' + '0</p>');
+        $("#scoreboard").append('<p class="min_pad">' + user + ': ' + '0</p>');
       },
 
       displayProblem: function (problem) {
@@ -46,14 +46,14 @@ define(
         $('input[name="guess"]').empty();
         $("#status").empty();
         $("#status").html(
-            '<p>Invalid username; please try another.</p>'
+            '<span class="inline">Invalid username; please try another.</p>'
             )
       },
 
       congratulate: function () {
         $("#status").empty();
         $("#status").html(
-            '<p>Correct! Nice!</p>'
+            '<span class="inline">Correct! Nice!</p>'
             )
       },
 
@@ -66,7 +66,7 @@ define(
         if (scoreboard.length > 0) {
           scoreboard.forEach(function (score) {
             $("#scoreboard").append(
-              "<p>" + score[0] + ": " + score[1]);
+              '<p class="min_pad">' + score[0] + ': ' + score[1]);
           });
         }
       },
@@ -74,13 +74,13 @@ define(
       wrong: function () {
         $("#status").empty();
         $("#status").html(
-            '<p>YOU FOOL!</p>'
+            '<span class="inline">YOU FOOL!</p>'
             )
       },
       shame: function () {
         $("#status").empty();
         $("#status").html(
-            '<p>Too slow!</p>'
+            '<span class="inline">Too slow!</p>'
             )
       }
     }

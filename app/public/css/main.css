@@ -97,20 +97,42 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.game {
+  width: 50%;
+  margin: 0 auto;
+  padding: 2em;
+}
 
+.twenty_width {
+  width: 20%;
+}
 
+.fifty_width {
+  width: 50%;
+}
 
+.center {
+  margin: 0 auto;
+  padding: 0.75em;
+}
 
+.min_10 {
+  min-width: 10%;
+}
 
+.inline {
+  display: inline;
+}
 
+.min_pad {
+  padding: 0.2em;
+}
 
-
-
-
-
-
-
-
+.border_box {
+  border: 1px solid gray;
+  -webkit-border-radius: 20px 10px;
+          border-radius: 20px/10px;
+}
 
 
 /* ==========================================================================

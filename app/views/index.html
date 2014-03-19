@@ -20,18 +20,20 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <!-- Add your site or application content here -->
-        <h1>Welcome to Battlestar Mathematica</h1>
-        <div class="inputs">
-          <form id="username_form">
-            <input type="text" name="username" placeholder="username">
-            <input type="submit" name="submit" value="submit">
-          </form>
-        </div>
+        <h1 class="fifty_width center">Welcome to Battlestar Mathematica</h1>
 
-        <div id="status"></div>
-        <div id="problem"></div>
-        <div id="scoreboard"></div>
+        <div class="game fifty_width center border_box">
+          <div class="inputs center">
+            <form id="username_form">
+              <input type="text" name="username" placeholder="username">
+              <input type="submit" name="submit" value="submit">
+            </form>
+          </div>
+
+          <div id="problem" class="twenty_per_width center inline"></div>
+          <div id="status" class="min_10 inline"></div>
+          <div id="scoreboard" class="twenty_per_width inline"></div>
+        </div>
 
         <script data-main="scripts/main" src="scripts/require.js"></script>
 
