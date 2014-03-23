@@ -13,7 +13,6 @@
     "express": "~3.4.8",
     "socket.io": "~0.9.16",
     "mathjs": "~0.18.1",
-    "jade": "~1.1.5"
   },
   "devDependencies": {
     "mocha": "~1.17.1",
