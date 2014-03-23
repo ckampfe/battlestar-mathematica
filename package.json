@@ -1,10 +1,10 @@
 {
   "name": "app_challenge",
-  "version": "0.0.0-1",
+  "version": "0.0.0-2",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "",
+    "test": "mocha -R spec",
     "start": "node app"
   },
   "author": "Clark Kampfe",
@@ -19,6 +19,10 @@
     "should": "~3.1.3",
     "selenium-webdriver": "~2.40.0",
     "socket.io-client": "~0.9.16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ckampfe/battlestar-mathematica.git"
   },
   "subdomain": "mathchallenge",
   "engines": {
