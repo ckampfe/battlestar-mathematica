@@ -28,7 +28,7 @@ define(
       makeGuessInput: function (socket) {
         $(".inputs").empty();
         $(".inputs").html(
-          '<form id="guess_form">'
+          '<form id="guess_form" class="center">'
           + '<input type="text" name="guess" placeholder="guess">'
           + '<input type="submit" name="submit" value="submit">'
           )
