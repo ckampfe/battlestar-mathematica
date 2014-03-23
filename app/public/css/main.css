@@ -120,6 +120,33 @@ textarea {
   text-align: center;
 }
 
+.big {
+  font-size: 2em;
+}
+
+#username_form > input[type="text"] {
+  padding: 10px;
+  text-align: center;
+}
+
+#username_form > input[type="submit"] {
+  font-size: 1.3em;
+  height: 2em;
+  vertical-align: middle;
+}
+
+#guess_form > input[type="text"] {
+ padding: 10px; 
+ margin-right: 7px;
+ text-align: center;
+}
+
+#guess_form > input[type="submit"] {
+  font-size: 1.3em;
+  height: 2em;
+  vertical-align: middle;
+}
+
 .min_10 {
   min-width: 10%;
 }

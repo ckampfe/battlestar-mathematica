@@ -17,7 +17,7 @@ define(
       },
 
       addUserToScoreboard: function (user) {
-        $("#scoreboard").append('<p class="min_pad">' + user + ': ' + '0</p>');
+        $("#scoreboard").append('<p>' + user + ': ' + '0</p>');
       },
 
       displayProblem: function (problem) {
@@ -28,7 +28,7 @@ define(
       makeGuessInput: function (socket) {
         $(".inputs").empty();
         $(".inputs").html(
-          '<form id="guess_form">'
+          '<form id="guess_form" class="center">'
           + '<input type="text" name="guess" placeholder="guess">'
           + '<input type="submit" name="submit" value="submit">'
           )
@@ -46,14 +46,14 @@ define(
         $('input[name="guess"]').empty();
         $("#status").empty();
         $("#status").html(
-            '<span class="inline">Invalid username; please try another.</p>'
+            '<p>Invalid username; please try another.</p>'
             )
       },
 
       congratulate: function () {
         $("#status").empty();
         $("#status").html(
-            '<span class="inline">Correct! Nice!</p>'
+            '<p>Correct! Nice!</p>'
             )
       },
 
@@ -66,21 +66,22 @@ define(
         if (scoreboard.length > 0) {
           scoreboard.forEach(function (score) {
             $("#scoreboard").append(
-              '<p class="min_pad">' + score[0] + ': ' + score[1]);
+              "<p>" + score[0] + ": " + score[1]);
           });
         }
       },
 
       wrong: function () {
+        var wrongs = ['YOU FOOL!', 'Nope...', 'Wrong!'];
         $("#status").empty();
         $("#status").html(
-            '<span class="inline">YOU FOOL!</p>'
+            '<span class="inline">' + util.sample(wrongs) + '</p>'
             )
       },
       shame: function () {
         $("#status").empty();
         $("#status").html(
-            '<span class="inline">Too slow!</p>'
+            '<p>Too slow!</p>'
             )
       }
     }
