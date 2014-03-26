@@ -297,38 +297,44 @@ describe('integration', function () {
 
       client = io.connect(url, options);
 
-      client.on('guess status', function (guessStatus) {
-        if (guessStatus === 'correct') {
-          client.disconnect();
-          done();
-        }
-      });
-
-      client.on('problem', function (problem) {
-        setTimeout(function () {
-          client.emit('guess', math.eval(problem));
-        }, 500);
-      });
-
       thirdDriver.get('http://localhost:3000').then(function () {
-        setTimeout(function () {
-          client.emit('set username', 'r2d2');
-        }, 1000);
+        done();
       });
     });
 
     after(function () {
-      thirdDriver.quit();
+      // thirdDriver.quit();
     });
 
     it('shames me', function (done) {
-      thirdDriver.findElement(webdriver.By.id('status'))
-      .then(function (statusDiv) {
-        return statusDiv.getText();
-      }).then(function (text) {
-        text.should.match(/Too slow!/);
-        done();
+      client.on('problem', function (problem) {
+        console.log(problem);
+        console.log(math.eval(problem));
+        client.emit('guess', math.eval(problem));
+        console.log('sent answer');
       });
+
+      client.on('guess status', function (guessStatus) {
+        if (guessStatus === 'correct') {
+          console.log('correct guess');
+          client.disconnect();
+          console.log('client disconnected');
+
+          setTimeout(function () {
+            thirdDriver.findElement(webdriver.By.id('status'))
+            .then(function (statusDiv) {
+              console.log('got status div');
+              return statusDiv.getText();
+            }).then(function (text) {
+              console.log('got text');
+              text.should.match(/Too slow!/);
+              done();
+            });
+          }, 1000);
+        }
+      });
+
+      client.emit('set username', 'r2d2');
     });
 
     it('increments their score on my scoreboard');
