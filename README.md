@@ -20,6 +20,7 @@ First:
 npm install
 ```
 #### ...the tests:
+Have an instance of [Selenium Server](http://docs.seleniumhq.org/) running, then:
 ```
 mocha -R spec
 ```
