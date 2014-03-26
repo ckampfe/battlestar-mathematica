@@ -3,8 +3,33 @@ battlestar-mathematica
 
 A math game created for the good folks over at [Belly](https://bellycard.com/).
 
-### Using:
-==========
+The idea is simple: you and your friends go to [mathchallenge.nodejitsu.com](mathchallenge.nodejitsu.com) and
+race to solve math problems.
+
+### Issues:
+
+- The integration test 'when someone else answers correctly it shames me'
+  times out.
+- The integration test 'when someone else answers correctly it increments their
+  score on my scoreboard' is pending.
+
+### To run:
+
+First:
+```
+npm install
+```
+#### ...the tests:
+```
+mocha -R spec
+```
+
+#### ...the app:
+```
+node app
+```
+
+### Built with:
 
 - Node.js 0.10.25
 - Express 3.4.8
