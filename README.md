@@ -17,17 +17,18 @@ race to solve math problems.
 
 First:
 ```
-npm install
+$ git clone https://github.com/ckampfe/battlestar-mathematica.git
+$ npm install
 ```
 #### ...the tests:
 Have an instance of [Selenium Server](http://docs.seleniumhq.org/) running, then:
 ```
-mocha -R spec
+$ mocha -R spec
 ```
 
 #### ...the app:
 ```
-node app
+$ node app
 ```
 
 ### Built with:
