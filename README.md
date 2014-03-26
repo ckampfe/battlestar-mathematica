@@ -3,7 +3,7 @@ battlestar-mathematica
 
 A math game created for the good folks over at [Belly](https://bellycard.com/).
 
-The idea is simple: you and your friends go to [mathchallenge.nodejitsu.com](mathchallenge.nodejitsu.com) and
+The idea is simple: you and your friends go to [mathchallenge.nodejitsu.com](http://mathchallenge.nodejitsu.com) and
 race to solve math problems.
 
 ### Issues:
